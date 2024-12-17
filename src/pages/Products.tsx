@@ -1,48 +1,49 @@
-import { Box, VStack, Button, Grid } from "@chakra-ui/react";
+import { Box, VStack, Button, Grid, Spinner, Text } from "@chakra-ui/react";
 import { useColorMode } from "../components/ui/color-mode";
 import ProductCard from "../components/ProductCard";
+import { useGetProductsQuery } from "../app/Slices/ProductApiSlice";
 
 function Products() {
+	const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 	const { colorMode, toggleColorMode } = useColorMode();
+	const { data, isLoading, isError } = useGetProductsQuery(undefined);
 
-	const products = [
-		{
-			name: "Ergonomic Chair",
-			description: "Comfortable office chair with lumbar support",
-			price: 199.99,
-			imageUrl: "https://via.placeholder.com/300",
-		},
-		{
-			name: "Wireless Keyboard",
-			description: "Slim, quiet-typing wireless keyboard",
-			price: 79.99,
-			imageUrl: "https://via.placeholder.com/300",
-		},
-		{
-			name: "4K Monitor",
-			description: "Ultra-sharp 27-inch 4K monitor",
-			price: 349.99,
-			imageUrl: "https://via.placeholder.com/300",
-		},
-		{
-			name: "Noise-Cancelling Headphones",
-			description: "Over-ear headphones with active noise cancellation",
-			price: 249.99,
-			imageUrl: "https://via.placeholder.com/300",
-		},
-		{
-			name: "Wireless Mouse",
-			description: "Ergonomic wireless mouse with programmable buttons",
-			price: 49.99,
-			imageUrl: "https://via.placeholder.com/300",
-		},
-		{
-			name: "Laptop Stand",
-			description: "Adjustable aluminum laptop stand",
-			price: 39.99,
-			imageUrl: "https://via.placeholder.com/300",
-		},
-	];
+	if (isLoading) {
+		return (
+			<Box
+				minHeight="100vh"
+				display="flex"
+				justifyContent="center"
+				alignItems="center">
+				<Spinner size="xl" />
+			</Box>
+		);
+	}
+
+	if (isError) {
+		return (
+			<Box
+				minHeight="100vh"
+				display="flex"
+				justifyContent="center"
+				alignItems="center">
+				<Text fontSize="xl" color="red.500">
+					Failed to load products. Please try again later.
+				</Text>
+			</Box>
+		);
+	}
+
+	// Transform API data
+	const products = data?.data?.map((product: any) => ({
+		id: product.id,
+		name: product.title, // API 'title' maps to 'name' for ProductCard
+		description: product.description,
+		price: product.price,
+		imageUrl:
+			product.thumbnail?.formats?.large.url ||
+			product.thumbnail?.formats?.thumbnail?.url,
+	}));
 
 	return (
 		<Box
@@ -63,13 +64,13 @@ function Products() {
 				}}
 				gap={8}
 				justifyContent="center">
-				{products.map((product, index) => (
+				{products?.map((product: any) => (
 					<ProductCard
-						key={index}
+						key={product.id}
 						name={product.name}
 						description={product.description}
 						price={product.price}
-						imageUrl={product.imageUrl}
+						imageUrl={`${BASE_URL}${product.imageUrl}`}
 					/>
 				))}
 			</Grid>
