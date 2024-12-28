@@ -4,9 +4,9 @@ import ProductCard from "../components/ProductCard";
 import { useGetProductsQuery } from "../app/Slices/ProductApiSlice";
 import ProductSkeleton from "../components/ProductSkeleton";
 import { Product } from "../interfaces";
+import axiosInstance from "../config/axios.config";
 
 function Products() {
-	const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 	const { colorMode } = useColorMode();
 	const { data, isLoading, isError } = useGetProductsQuery(undefined);
 
@@ -48,7 +48,7 @@ function Products() {
 								title={product.title}
 								description={product.description}
 								price={product.price}
-								imgURL={`${BASE_URL}${product.thumbnail.url}`}
+								imgURL={`${axiosInstance.defaults.baseURL}${product.thumbnail.url}`}
 							/>
 					  ))}
 			</Grid>

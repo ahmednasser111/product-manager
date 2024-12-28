@@ -1,11 +1,27 @@
-import { Box, Flex, Button, Image, Text } from "@chakra-ui/react";
-import { BsMoon, BsSun } from "react-icons/bs";
+import {
+	Box,
+	Flex,
+	Button,
+	Image,
+	Text,
+	IconButton,
+	DrawerBody,
+	DrawerContent,
+	DrawerBackdrop,
+	VStack,
+	HStack,
+} from "@chakra-ui/react";
+import { BsMoon, BsSun, BsList } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import { useColorMode, useColorModeValue } from "../ui/color-mode";
+import { DrawerRoot } from "../ui/drawer";
+import { useState } from "react";
+import MenuItems from "./MenuItem";
 
 export default function NavBar() {
 	const { colorMode, toggleColorMode } = useColorMode();
-	const bgColor = useColorModeValue("gray.100", "gray.900");
+	const [isOpen, setOpen] = useState(false);
+	const bgColor = useColorModeValue("white", "black");
 	const textColor = useColorModeValue("gray.800", "white");
 
 	return (
@@ -25,24 +41,42 @@ export default function NavBar() {
 							</Text>
 						</Flex>
 					</Link>
-					<Link to="/products">
-						<Button variant="ghost" color={textColor} ml={4}>
-							Products
-						</Button>
-					</Link>
-					<Link to="/dashboard">
-						<Button variant="ghost" color={textColor}>
-							Dashboard
-						</Button>
-					</Link>
 				</Flex>
 
 				<Flex alignItems="center">
-					<Button onClick={toggleColorMode}>
+					{/* Desktop menu */}
+					<HStack display={{ base: "none", md: "flex" }}>
+						<MenuItems />
+					</HStack>
+
+					{/* Mobile menu button */}
+					<IconButton
+						aria-label="Open menu"
+						onClick={() => setOpen(!isOpen)}
+						display={{ base: "flex", md: "none" }}
+						ml={2}>
+						<BsList />
+					</IconButton>
+
+					<Button onClick={toggleColorMode} ml={2}>
 						{colorMode === "light" ? <BsMoon /> : <BsSun />}
 					</Button>
 				</Flex>
 			</Flex>
+
+			<DrawerRoot
+				open={isOpen}
+				placement="top"
+				onOpenChange={(e) => setOpen(e.open)}>
+				<DrawerBackdrop />
+				<DrawerContent>
+					<DrawerBody>
+						<VStack spaceY={4} align="stretch">
+							<MenuItems />
+						</VStack>
+					</DrawerBody>
+				</DrawerContent>
+			</DrawerRoot>
 		</Box>
 	);
 }

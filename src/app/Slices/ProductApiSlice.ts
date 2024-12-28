@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import axiosInstance from "../../config/axios.config";
 
-const BASE_URL = import.meta.env.VITE_API_BASE_URL;
-const productApi = BASE_URL + "/api";
+const productApi = axiosInstance.defaults.baseURL + "/api";
 
 export const ProductApiSlice = createApi({
 	reducerPath: "product-api",

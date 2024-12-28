@@ -1,11 +1,5 @@
-import { Button } from "@chakra-ui/react";
-
 interface IProps {}
 function Home({}: IProps) {
-	return (
-		<div>
-			<Button>Hi!</Button>
-		</div>
-	);
+	return <div></div>;
 }
 export default Home;

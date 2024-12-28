@@ -16,12 +16,12 @@ import { useColorModeValue } from "../components/ui/color-mode";
 import { Alert } from "../components/ui/alert";
 import { useParams } from "react-router-dom";
 import { Product } from "../interfaces";
+import axiosInstance from "../config/axios.config";
 
 export default function ProductDetails() {
 	// Extract the `id` parameter from the URL
 	const params = useParams<{ id: string }>();
 	const id = params.id || "";
-	const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 	// Fetch the product details using the `id`
 	const { data, isLoading, isError } = useGetProductQuery(id);
@@ -50,14 +50,13 @@ export default function ProductDetails() {
 
 	// Extract product details from the response
 	const product: Product = data?.data;
-
 	return (
 		<Box minHeight="100vh" bg={bgColor}>
 			<Container maxW="6xl" py={12}>
 				<Flex direction={{ base: "column", md: "row" }} gap={8}>
 					<Box flex={1}>
 						<Image
-							src={`${BASE_URL}${product.thumbnail?.url}`}
+							src={`${axiosInstance.defaults.baseURL}${product.thumbnail?.url}`}
 							alt={product.title}
 							borderRadius="lg"
 							objectFit="cover"
