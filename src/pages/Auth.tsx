@@ -23,7 +23,7 @@ interface FormData {
 	confirmPassword?: string;
 }
 
-export default function AuthPage() {
+export default function Auth() {
 	const [isLogin, setIsLogin] = useState(true);
 	const bgColor = useColorModeValue("white", "black");
 	const boxBgColor = useColorModeValue("white", "gray.900");

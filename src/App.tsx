@@ -3,7 +3,7 @@ import Home from "./pages/Home";
 import Products from "./pages/Products";
 import ProductDetails from "./pages/ProductDetails";
 import NavBar from "./components/layout/NavBar";
-import Login from "./pages/Auth";
+import Auth from "./pages/Auth";
 
 function App() {
 	return (
@@ -14,7 +14,7 @@ function App() {
 				<Route path="/products" element={<Products />} />
 				<Route path="/products/:id" element={<ProductDetails />} />
 
-				<Route path="/login" element={<Login />} />
+				<Route path="/auth" element={<Auth />} />
 			</Routes>
 		</>
 	);
