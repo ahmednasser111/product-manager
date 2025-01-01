@@ -1,4 +1,5 @@
 import * as yup from "yup";
+
 // Custom error messages
 const passwordErrors = {
 	min: "Password must be at least 8 characters",
@@ -11,6 +12,16 @@ const passwordErrors = {
 	repeated: "Password cannot contain repeated characters more than 2 times",
 	personal: "Password cannot contain personal information",
 	required: "Password is required",
+};
+
+const usernameErrors = {
+	required: "Username is required",
+	min: "Username must be at least 3 characters",
+	max: "Username cannot exceed 30 characters",
+	format: "Username can only contain letters, numbers, dots, and underscores",
+	startEnd: "Username must start and end with a letter or number",
+	consecutive: "Username cannot contain consecutive dots or underscores",
+	reserved: "This username is reserved or not allowed",
 };
 
 // List of common words to avoid in passwords
@@ -31,6 +42,21 @@ const commonWords = [
 	"superman",
 ];
 
+// List of reserved usernames
+const reservedUsernames = [
+	"admin",
+	"administrator",
+	"system",
+	"mod",
+	"moderator",
+	"support",
+	"help",
+	"root",
+	"webmaster",
+	"info",
+	"contact",
+];
+
 // Custom validation functions
 const hasUppercase = (str: string) => /[A-Z]/.test(str);
 const hasLowercase = (str: string) => /[a-z]/.test(str);
@@ -49,6 +75,20 @@ const hasSequentialChars = (str: string) => {
 const hasRepeatedChars = (str: string) => /(.)\1{2,}/.test(str);
 
 export const signupSchema = yup.object().shape({
+	username: yup
+		.string()
+		.required(usernameErrors.required)
+		.min(3, usernameErrors.min)
+		.max(30, usernameErrors.max)
+		.matches(/^[a-zA-Z0-9][a-zA-Z0-9._]*[a-zA-Z0-9]$/, usernameErrors.format)
+		.test("no-consecutive-special", usernameErrors.consecutive, (value) => {
+			if (!value) return true;
+			return !/(\.{2}|_{2})/.test(value);
+		})
+		.test("reserved-username", usernameErrors.reserved, (value) => {
+			if (!value) return true;
+			return !reservedUsernames.includes(value.toLowerCase());
+		}),
 	email: yup
 		.string()
 		.required("Email is required")
@@ -93,10 +133,14 @@ export const signupSchema = yup.object().shape({
 		.test("personalInfo", passwordErrors.personal, function (value) {
 			if (!value) return true;
 			const email = this.parent.email;
-			if (!email) return true;
+			const username = this.parent.username;
+			if (!email && !username) return true;
 
-			const emailParts = email.split("@")[0].toLowerCase();
-			return !value.toLowerCase().includes(emailParts);
+			const emailParts = email ? email.split("@")[0].toLowerCase() : "";
+			return !(
+				value.toLowerCase().includes(emailParts) ||
+				(username && value.toLowerCase().includes(username.toLowerCase()))
+			);
 		}),
 
 	confirmPassword: yup

@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import {
 	Box,
-	Button,
 	Input,
 	VStack,
 	Heading,
@@ -16,15 +15,33 @@ import { useColorModeValue } from "../components/ui/color-mode";
 import { Field } from "../components/ui/field";
 import { PasswordInput } from "../components/ui/password-input";
 import { loginSchema, signupSchema } from "../validation";
+import { useAppDispatch } from "../app/hooks";
+import {
+	loginUser,
+	selectAuthError,
+	selectAuthLoading,
+	signupUser,
+} from "../app/Slices/AuthSlice";
+import { useSelector } from "react-redux";
+import { Button } from "../components/ui/button";
+import { useNavigate } from "react-router-dom";
+import { Toaster, toaster } from "../components/ui/toaster";
 
 interface FormData {
 	email: string;
 	password: string;
+	username?: string;
 	confirmPassword?: string;
 }
 
 export default function Auth() {
 	const [isLogin, setIsLogin] = useState(true);
+	const navigate = useNavigate();
+
+	const dispatch = useAppDispatch();
+	const isLoading = useSelector(selectAuthLoading);
+	const authError = useSelector(selectAuthError);
+
 	const bgColor = useColorModeValue("white", "black");
 	const boxBgColor = useColorModeValue("white", "gray.900");
 
@@ -37,8 +54,40 @@ export default function Auth() {
 		resolver: yupResolver(isLogin ? loginSchema : signupSchema),
 	});
 
-	const onSubmit = (data: any) => {
-		console.log(data);
+	const onSubmit = async (data: FormData) => {
+		try {
+			if (isLogin) {
+				await dispatch(
+					loginUser({ identifier: data.email, password: data.password })
+				).unwrap();
+
+				toaster.create({
+					title: "Sign In Successful",
+					description: "You have successfully signed in.",
+					type: "success",
+				});
+			} else {
+				await dispatch(
+					signupUser({
+						email: data.email,
+						username: data.username,
+						password: data.password,
+					})
+				).unwrap();
+
+				toaster.create({
+					title: "Sign Up Successful",
+					description: "Your account has been created successfully.",
+					type: "success",
+				});
+			}
+			setTimeout(() => navigate("/products"), 1000);
+		} catch (err: any) {
+			toaster.create({
+				title: err.error,
+				type: "error",
+			});
+		}
 	};
 
 	const toggleAuthMode = () => {
@@ -56,7 +105,7 @@ export default function Auth() {
 							<VStack spaceY={4}>
 								<Field
 									invalid={!!errors.email}
-									label="Email address"
+									label="Email Address"
 									errorText={errors.email?.message}>
 									<Input
 										borderColor={errors.email ? "red.400" : "grey"}
@@ -64,6 +113,18 @@ export default function Auth() {
 										{...register("email")}
 									/>
 								</Field>
+								{!isLogin && (
+									<Field
+										invalid={!!errors.username}
+										label="User Name"
+										errorText={errors.username?.message}>
+										<Input
+											borderColor={errors.username ? "red.400" : "grey"}
+											type="text"
+											{...register("username")}
+										/>
+									</Field>
+								)}
 								<Field
 									invalid={!!errors.password}
 									label="Password"
@@ -86,6 +147,13 @@ export default function Auth() {
 										/>
 									</Field>
 								)}
+
+								{authError && (
+									<Text color="red.500" mt={2}>
+										{authError.error}
+									</Text>
+								)}
+
 								<Button
 									type="submit"
 									bg="blue.400"
@@ -93,7 +161,9 @@ export default function Auth() {
 									_hover={{
 										bg: "blue.500",
 									}}
-									width="full">
+									width="full"
+									loading={isLoading}
+									loadingText="Submitting...">
 									{isLogin ? "Sign In" : "Sign Up"}
 								</Button>
 							</VStack>
@@ -107,6 +177,7 @@ export default function Auth() {
 					</Link>
 				</Text>
 			</VStack>
+			<Toaster />
 		</Box>
 	);
 }

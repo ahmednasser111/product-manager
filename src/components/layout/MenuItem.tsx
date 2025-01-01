@@ -25,6 +25,13 @@ const MenuItems = () => {
 				activeBg={activeBg}
 				activeColor={activeColor}
 			/>
+			<NavItem
+				to="/auth"
+				label="Login"
+				hoverBg={hoverBg}
+				activeBg={activeBg}
+				activeColor={activeColor}
+			/>
 		</VStack>
 	);
 };

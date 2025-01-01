@@ -4,6 +4,7 @@ import Products from "./pages/Products";
 import ProductDetails from "./pages/ProductDetails";
 import NavBar from "./components/layout/NavBar";
 import Auth from "./pages/Auth";
+import NotFound from "./components/layout/NotFound";
 
 function App() {
 	return (
@@ -15,6 +16,8 @@ function App() {
 				<Route path="/products/:id" element={<ProductDetails />} />
 
 				<Route path="/auth" element={<Auth />} />
+
+				<Route path="*" element={<NotFound />} />
 			</Routes>
 		</>
 	);
