@@ -1,5 +1,8 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axiosInstance from "../../config/axios.config";
+import Cookies from "universal-cookie";
+
+const cookies = new Cookies();
 
 // Types
 interface User {
@@ -40,6 +43,14 @@ const initialState: AuthState = {
 	isAuthenticated: false,
 };
 
+// Cookie options
+const cookieOptions = {
+	path: "/",
+	secure: import.meta.env.PROD,
+	sameSite: true,
+	maxAge: 7 * 24 * 60 * 60, // 7 days
+};
+
 // Async thunks
 export const loginUser = createAsyncThunk(
 	"auth/login",
@@ -50,8 +61,8 @@ export const loginUser = createAsyncThunk(
 				userData
 			);
 
-			// Store JWT in localStorage
-			localStorage.setItem("token", response.data.jwt);
+			// Store JWT in cookie
+			cookies.set("token", response.data.jwt, cookieOptions);
 
 			// Update axios default headers
 			axiosInstance.defaults.headers.common[
@@ -79,8 +90,8 @@ export const signupUser = createAsyncThunk(
 				userData
 			);
 
-			// Store JWT in localStorage
-			localStorage.setItem("token", response.data.jwt);
+			// Store JWT in cookie
+			cookies.set("token", response.data.jwt, cookieOptions);
 
 			// Update axios default headers
 			axiosInstance.defaults.headers.common[
@@ -103,8 +114,8 @@ export const logoutUser = createAsyncThunk(
 	"auth/logout",
 	async (_, thunkAPI) => {
 		try {
-			// Remove token from localStorage
-			localStorage.removeItem("token");
+			// Remove token from cookies
+			cookies.remove("token", { path: "/" });
 
 			// Remove Authorization header
 			delete axiosInstance.defaults.headers.common["Authorization"];

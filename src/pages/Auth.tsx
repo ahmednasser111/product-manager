@@ -81,7 +81,7 @@ export default function Auth() {
 					type: "success",
 				});
 			}
-			setTimeout(() => navigate("/products"), 1000);
+			setTimeout(() => navigate("/products", { replace: true }), 1000);
 		} catch (err: any) {
 			toaster.create({
 				title: err.error,
