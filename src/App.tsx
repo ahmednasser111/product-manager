@@ -1,10 +1,14 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 import { Suspense } from "react";
 import NotFound from "./components/layout/NotFound";
 import React from "react";
 import AppLayout from "./components/layout/AppLayout";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Loading from "./components/layout/Loading";
+import LogOut from "./pages/LogOut";
+import Cart from "./pages/Cart";
+import { useAppSelector } from "./app/hooks";
+import { selectIsAuthenticated } from "./app/Slices/AuthSlice";
 
 const Home = React.lazy(() => import("./pages/Home"));
 const Products = React.lazy(() => import("./pages/Products"));
@@ -12,11 +16,26 @@ const ProductDetails = React.lazy(() => import("./pages/ProductDetails"));
 const Auth = React.lazy(() => import("./pages/Auth"));
 
 function App() {
+	const isAuth = useAppSelector(selectIsAuthenticated);
 	return (
 		<Suspense fallback={<Loading />}>
 			<Routes>
-				<Route path="/auth" element={<Auth />} />
+				{/* Public Route for Authentication */}
+				<Route
+					path="/auth"
+					element={!isAuth ? <Auth /> : <Navigate to="/" replace />}
+				/>
 
+				<Route
+					path="/logout"
+					element={
+						<ProtectedRoute>
+							<LogOut />
+						</ProtectedRoute>
+					}
+				/>
+
+				{/* Protected Routes */}
 				<Route element={<AppLayout />}>
 					<Route
 						path="/"
@@ -42,7 +61,17 @@ function App() {
 							</ProtectedRoute>
 						}
 					/>
+					<Route
+						path="/cart"
+						element={
+							<ProtectedRoute>
+								<Cart />
+							</ProtectedRoute>
+						}
+					/>
 				</Route>
+
+				{/* Catch-All Route */}
 				<Route path="*" element={<NotFound />} />
 			</Routes>
 		</Suspense>

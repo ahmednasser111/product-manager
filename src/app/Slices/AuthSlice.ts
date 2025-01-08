@@ -35,12 +35,18 @@ interface AuthResponse {
 	user: User;
 }
 
+// Helper function to check authentication status
+const checkIsAuthenticated = () => {
+	const token = cookies.get("token");
+	return !!token;
+};
+
 // Initial state
 const initialState: AuthState = {
 	user: null,
 	loading: false,
 	error: null,
-	isAuthenticated: false,
+	isAuthenticated: checkIsAuthenticated(), // Initialize based on cookie
 };
 
 // Cookie options
@@ -137,7 +143,7 @@ const authSlice = createSlice({
 		},
 		setUser: (state, action: PayloadAction<User>) => {
 			state.user = action.payload;
-			state.isAuthenticated = true;
+			state.isAuthenticated = checkIsAuthenticated(); // Check cookie instead of always setting to true
 		},
 		clearUser: (state) => {
 			state.user = null;
@@ -154,13 +160,13 @@ const authSlice = createSlice({
 			.addCase(loginUser.fulfilled, (state, action) => {
 				state.loading = false;
 				state.user = action.payload.user;
-				state.isAuthenticated = true;
+				state.isAuthenticated = checkIsAuthenticated(); // Check cookie instead of always setting to true
 				state.error = null;
 			})
 			.addCase(loginUser.rejected, (state, action: any) => {
 				state.loading = false;
 				state.error = action.payload;
-				state.isAuthenticated = false;
+				state.isAuthenticated = checkIsAuthenticated(); // Check cookie in case of error
 			})
 
 			// Signup cases
@@ -171,19 +177,19 @@ const authSlice = createSlice({
 			.addCase(signupUser.fulfilled, (state, action) => {
 				state.loading = false;
 				state.user = action.payload.user;
-				state.isAuthenticated = true;
+				state.isAuthenticated = checkIsAuthenticated(); // Check cookie instead of always setting to true
 				state.error = null;
 			})
 			.addCase(signupUser.rejected, (state, action: any) => {
 				state.loading = false;
 				state.error = action.payload;
-				state.isAuthenticated = false;
+				state.isAuthenticated = checkIsAuthenticated(); // Check cookie in case of error
 			})
 
 			// Logout cases
 			.addCase(logoutUser.fulfilled, (state) => {
 				state.user = null;
-				state.isAuthenticated = false;
+				state.isAuthenticated = checkIsAuthenticated(); // Check cookie instead of always setting to false
 				state.error = null;
 			});
 	},

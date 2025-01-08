@@ -1,11 +1,16 @@
 import { Navigate } from "react-router-dom";
-import Cookies from "universal-cookie";
 import { ReactElement } from "react";
+import { useAppSelector } from "../app/hooks";
+import { selectIsAuthenticated } from "../app/Slices/AuthSlice";
 
-const ProtectedRoute = ({ children }: { children: ReactElement }) => {
-	const token = new Cookies().get("token");
+interface ProtectedRouteProps {
+	children: ReactElement;
+}
 
-	if (!token) {
+const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
+	const isAuth = useAppSelector(selectIsAuthenticated);
+
+	if (!isAuth) {
 		return <Navigate to="/auth" replace />;
 	}
 	return children;

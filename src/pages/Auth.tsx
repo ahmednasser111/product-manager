@@ -81,10 +81,11 @@ export default function Auth() {
 					type: "success",
 				});
 			}
-			setTimeout(() => navigate("/products", { replace: true }), 1000);
+			setTimeout(() => navigate("/", { replace: true }), 1000);
 		} catch (err: any) {
 			toaster.create({
-				title: err.error,
+				title: err.error || "An error occurred",
+				description: "Please try again.",
 				type: "error",
 			});
 		}
