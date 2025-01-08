@@ -1,6 +1,8 @@
 import { Box, Button, Flex, Image, Text, VStack } from "@chakra-ui/react";
 import { useColorModeValue } from "./ui/color-mode";
 import { useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../app/hooks";
+import { addToCart } from "../app/Slices/CartSlice";
 
 interface ProductCardProps {
 	title: string;
@@ -24,6 +26,7 @@ function ProductCard({
 	const borderColor = useColorModeValue("gray.200", "gray.700");
 
 	const navigate = useNavigate();
+	const dispatch = useAppDispatch();
 
 	const openProductDetailsPage = () => {
 		navigate(`${id}`);
@@ -36,7 +39,7 @@ function ProductCard({
 
 	const handleAddToCart = (e: React.MouseEvent) => {
 		e.stopPropagation();
-		// Add cart logic here
+		dispatch(addToCart({ id, title, price }));
 	};
 
 	return (
@@ -77,7 +80,7 @@ function ProductCard({
 						colorScheme="teal"
 						flex={1}
 						onClick={handleAddToCart}>
-						Add to cart 
+						Add to cart
 					</Button>
 				</Flex>
 			</VStack>
