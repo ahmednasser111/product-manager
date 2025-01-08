@@ -77,7 +77,7 @@ function ProductCard({
 						colorScheme="teal"
 						flex={1}
 						onClick={handleAddToCart}>
-						Add to cart
+						Add to cart 
 					</Button>
 				</Flex>
 			</VStack>
