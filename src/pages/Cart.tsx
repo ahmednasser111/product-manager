@@ -13,6 +13,8 @@ import {
 	VStack,
 	HStack,
 	Heading,
+	Stack,
+	Image,
 } from "@chakra-ui/react";
 
 const Cart: React.FC = () => {
@@ -45,35 +47,52 @@ const Cart: React.FC = () => {
 		<Container maxW="lg" mt={4}>
 			<VStack spaceY={4}>
 				{items.map((item) => (
-					<HStack
+					<Stack
 						key={item.id}
-						spaceX={4}
+						direction={{ base: "column", md: "row" }}
+						spaceY={4}
 						w="full"
-						justifyContent="space-between">
+						justifyContent="space-between"
+						alignItems="center"
+						p={4}
+						borderWidth={1}
+						borderRadius="md">
+						<Image
+							src={item.image}
+							alt={item.title}
+							boxSize="100px"
+							objectFit="cover"
+						/>
 						<Box>
-							<Text>{item.title}</Text>
+							<Text fontWeight="bold">{item.title}</Text>
 							<Text>Price: ${item.price}</Text>
 							<Text>Quantity: {item.quantity}</Text>
 						</Box>
 						<HStack>
 							<Button
+								size="sm"
 								onClick={() =>
 									handleQuantityChange(item.id, item.quantity + 1)
 								}>
 								+
 							</Button>
 							<Button
+								size="sm"
 								onClick={() => handleQuantityChange(item.id, item.quantity - 1)}
 								disabled={item.quantity === 1}>
 								-
 							</Button>
-							<Button onClick={() => handleRemoveItem(item.id)}>Remove</Button>
+							<Button size="sm" onClick={() => handleRemoveItem(item.id)}>
+								Remove
+							</Button>
 						</HStack>
-					</HStack>
+					</Stack>
 				))}
-				<HStack w="full" justifyContent="space-between">
-					<Text>Total: ${total}</Text>
-					<Button onClick={handleClearCart}>Clear Cart</Button>
+				<HStack w="full" justifyContent="space-between" mt={4}>
+					<Text fontWeight="bold">Total: ${total}</Text>
+					<Button colorScheme="red" onClick={handleClearCart}>
+						Clear Cart
+					</Button>
 				</HStack>
 			</VStack>
 		</Container>

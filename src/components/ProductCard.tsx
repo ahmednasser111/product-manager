@@ -39,9 +39,8 @@ function ProductCard({
 
 	const handleAddToCart = (e: React.MouseEvent) => {
 		e.stopPropagation();
-		dispatch(addToCart({ id, title, price }));
+		dispatch(addToCart({ id, title, price, image: imgURL }));
 	};
-
 	return (
 		<Box
 			borderWidth="1px"

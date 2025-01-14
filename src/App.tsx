@@ -9,6 +9,7 @@ import LogOut from "./pages/LogOut";
 import Cart from "./pages/Cart";
 import { useAppSelector } from "./app/hooks";
 import { selectIsAuthenticated } from "./app/Slices/AuthSlice";
+import DashBoard from "./pages/dashboard/DashBoard";
 
 const Home = React.lazy(() => import("./pages/Home"));
 const Products = React.lazy(() => import("./pages/Products"));
@@ -69,6 +70,10 @@ function App() {
 							</ProtectedRoute>
 						}
 					/>
+
+					<Route path="/dashboard">
+						<Route index element={<DashBoard />}></Route>
+					</Route>
 				</Route>
 
 				{/* Catch-All Route */}
