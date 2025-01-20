@@ -10,6 +10,8 @@ import Cart from "./pages/Cart";
 import { useAppSelector } from "./app/hooks";
 import { selectIsAuthenticated } from "./app/Slices/AuthSlice";
 import DashBoard from "./pages/dashboard/DashBoard";
+import DashBoardLayout from "./components/layout/DashBoardLayout";
+import DashBoardProducts from "./pages/dashboard/DashBoardProducts";
 
 const Home = React.lazy(() => import("./pages/Home"));
 const Products = React.lazy(() => import("./pages/Products"));
@@ -71,9 +73,11 @@ function App() {
 						}
 					/>
 
-					<Route path="/dashboard">
-						<Route index element={<DashBoard />}></Route>
-					</Route>
+				</Route>
+				
+				<Route path="/dashboard" element={<DashBoardLayout />}>
+					<Route index element={<DashBoard />} />
+					<Route path="products" element={<DashBoardProducts />} />
 				</Route>
 
 				{/* Catch-All Route */}
