@@ -9,8 +9,16 @@ export interface Product {
 	publishedAt: string;
 	description: string;
 	thumbnail: Thumbnail;
+	categories: Category[];
 }
-
+export interface Category {
+	id: number;
+	documentId: string;
+	title: string;
+	createdAt: string;
+	updatedAt: string;
+	publishedAt: string;
+}
 export interface Thumbnail {
 	id: number;
 	documentId: string;
