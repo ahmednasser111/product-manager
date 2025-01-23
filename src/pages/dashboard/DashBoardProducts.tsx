@@ -1,5 +1,5 @@
 import { Product } from "../../interfaces";
-import { useGetDashboardProductsPaginatedQuery } from "../../app/Slices/ProductApiSlice";
+import { useGetDashboardProductsPaginatedQuery } from "../../app/Slices/products";
 import {
 	PaginationItems,
 	PaginationNextTrigger,
@@ -11,10 +11,10 @@ import axiosInstance from "../../config/axios.config";
 import DashboardProductSkeleton from "../../components/DashboardProductSkeleton";
 import { useState } from "react";
 import TableActions from "../../components/TableActions";
-import { useNavigate } from "react-router-dom";
 
 const DashBoardProducts = () => {
 	const [page, setPage] = useState(1);
+
 	const { data, isLoading, isError } = useGetDashboardProductsPaginatedQuery({
 		page,
 		pageSize: 5,
@@ -24,20 +24,6 @@ const DashBoardProducts = () => {
 	if (isError) return <div>Error loading products</div>;
 
 	const products = data?.data;
-
-	function handlePreview(id: number): void {
-		const naviage = useNavigate();
-		naviage(`/products/${id}`);
-		// throw new Error("Function not implemented.");
-	}
-
-	function handleEdit(id: number): void {
-		throw new Error("Function not implemented.");
-	}
-
-	function handleDelete(id: number): void {
-		throw new Error("Function not implemented.");
-	}
 
 	return (
 		<div>
@@ -83,12 +69,7 @@ const DashBoardProducts = () => {
 										.join(", ")}
 								</Table.Cell>
 								<Table.Cell>
-									<TableActions
-										id={product.id}
-										onDelete={handleDelete}
-										onEdit={handleEdit}
-										onPreview={handlePreview}
-									/>
+									<TableActions id={product.documentId} />
 								</Table.Cell>
 							</Table.Row>
 						))}

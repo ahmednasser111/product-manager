@@ -1,7 +1,7 @@
 import { Box, Grid, Text } from "@chakra-ui/react";
 import { useColorMode } from "../components/ui/color-mode";
 import ProductCard from "../components/ProductCard";
-import { useGetProductsQuery } from "../app/Slices/ProductApiSlice";
+import { useGetProductsQuery } from "../app/Slices/products";
 import { Product } from "../interfaces";
 import axiosInstance from "../config/axios.config";
 import ProductSkeleton from "../components/ProductSkeleton";

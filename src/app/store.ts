@@ -3,7 +3,7 @@ import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import authSlice from "./Slices/AuthSlice";
 import cartSlice from "./Slices/CartSlice";
-import { ProductApiSlice } from "./Slices/ProductApiSlice";
+import { ProductApiSlice } from "./Slices/products";
 
 const cartPersistConfig = {
 	key: "cart",

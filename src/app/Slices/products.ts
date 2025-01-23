@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import axiosInstance from "../../config/axios.config";
 import { Product } from "../../interfaces";
+import Cookies from "universal-cookie";
 
 const productApi = axiosInstance.defaults.baseURL + "/api";
 
@@ -26,6 +27,7 @@ export const ProductApiSlice = createApi({
 	endpoints: (builder) => ({
 		getProducts: builder.query<Response<Product>, void>({
 			query: () => "/products?populate=thumbnail&populate=categories",
+			providesTags: ["Products"],
 		}),
 		getDashboardProductsPaginated: builder.query<
 			Response<Product>,
@@ -33,9 +35,21 @@ export const ProductApiSlice = createApi({
 		>({
 			query: ({ page = 1, pageSize = 10 }) =>
 				`/products?populate=thumbnail&populate=categories&pagination[page]=${page}&pagination[pageSize]=${pageSize}`,
+			providesTags: ["Products"],
 		}),
 		getProduct: builder.query<Product, string>({
 			query: (id: string) => `/products/${id}?populate=thumbnail`,
+		}),
+		// delete a product with authentication
+		deleteProduct: builder.mutation<void, string>({
+			query: (id: string) => ({
+				url: `/products/${id}`,
+				method: "DELETE",
+				headers: {
+					Authorization: `Bearer ${new Cookies().get("token")}`,
+				},
+			}),
+			invalidatesTags: ["Products"],
 		}),
 	}),
 });
@@ -45,4 +59,5 @@ export const {
 	useGetProductsQuery,
 	useGetProductQuery,
 	useGetDashboardProductsPaginatedQuery,
+	useDeleteProductMutation,
 } = ProductApiSlice;
