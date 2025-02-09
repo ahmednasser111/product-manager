@@ -69,7 +69,10 @@ const DashBoardProducts = () => {
 										.join(", ")}
 								</Table.Cell>
 								<Table.Cell>
-									<TableActions id={product.documentId} />
+									<TableActions
+										id={product.documentId}
+										productData={product}
+									/>
 								</Table.Cell>
 							</Table.Row>
 						))}

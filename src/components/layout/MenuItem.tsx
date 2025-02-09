@@ -15,40 +15,47 @@ const MenuItems = () => {
 
 	return (
 		<VStack
-			align="stretch"
-			width="full"
+			align='stretch'
+			width='full'
 			flexDirection={{ base: "column", md: "row" }}>
 			<NavItem
-				to="/dashboard"
-				label="Dashboard"
+				to='/'
+				label='Home'
 				hoverBg={hoverBg}
 				activeBg={activeBg}
 				activeColor={activeColor}
 			/>
 			<NavItem
-				to="/products"
-				label="Products"
+				to='/dashboard'
+				label='Dashboard'
 				hoverBg={hoverBg}
 				activeBg={activeBg}
 				activeColor={activeColor}
 			/>
 			<NavItem
-				to="/inventory"
-				label="Inventory"
+				to='/products'
+				label='Products'
 				hoverBg={hoverBg}
 				activeBg={activeBg}
 				activeColor={activeColor}
 			/>
 			<NavItem
-				to="/orders"
-				label="Orders"
+				to='/inventory'
+				label='Inventory'
+				hoverBg={hoverBg}
+				activeBg={activeBg}
+				activeColor={activeColor}
+			/>
+			<NavItem
+				to='/orders'
+				label='Orders'
 				hoverBg={hoverBg}
 				activeBg={activeBg}
 				activeColor={activeColor}
 			/>
 			{/* Add Cart NavItem */}
 			<NavItem
-				to="/cart"
+				to='/cart'
 				label={`Cart (${itemCount})`}
 				hoverBg={hoverBg}
 				activeBg={activeBg}
@@ -57,15 +64,15 @@ const MenuItems = () => {
 			{isAuth ? (
 				<>
 					<NavItem
-						to="/profile"
-						label="Profile"
+						to='/profile'
+						label='Profile'
 						hoverBg={hoverBg}
 						activeBg={activeBg}
 						activeColor={activeColor}
 					/>
 					<NavItem
-						to="/logout"
-						label="Logout"
+						to='/logout'
+						label='Logout'
 						hoverBg={hoverBg}
 						activeBg={activeBg}
 						activeColor={activeColor}
@@ -73,8 +80,8 @@ const MenuItems = () => {
 				</>
 			) : (
 				<NavItem
-					to="/auth"
-					label="Login"
+					to='/auth'
+					label='Login'
 					hoverBg={hoverBg}
 					activeBg={activeBg}
 					activeColor={activeColor}

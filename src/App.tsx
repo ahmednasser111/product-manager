@@ -17,6 +17,7 @@ const Home = React.lazy(() => import("./pages/Home"));
 const Products = React.lazy(() => import("./pages/Products"));
 const ProductDetails = React.lazy(() => import("./pages/ProductDetails"));
 const Auth = React.lazy(() => import("./pages/Auth"));
+const Profile = React.lazy(() => import("./pages/Profile"));
 
 function App() {
 	const isAuth = useAppSelector(selectIsAuthenticated);
@@ -25,12 +26,21 @@ function App() {
 			<Routes>
 				{/* Public Route for Authentication */}
 				<Route
-					path="/auth"
-					element={!isAuth ? <Auth /> : <Navigate to="/" replace />}
+					path='/auth'
+					element={
+						!isAuth ? (
+							<Auth />
+						) : (
+							<Navigate
+								to='/'
+								replace
+							/>
+						)
+					}
 				/>
 
 				<Route
-					path="/logout"
+					path='/logout'
 					element={
 						<ProtectedRoute>
 							<LogOut />
@@ -41,15 +51,17 @@ function App() {
 				{/* Protected Routes */}
 				<Route element={<AppLayout />}>
 					<Route
-						path="/"
+						path='/'
 						element={
 							<ProtectedRoute>
 								<Home />
 							</ProtectedRoute>
 						}
 					/>
+				</Route>
+				<Route element={<AppLayout />}>
 					<Route
-						path="/products"
+						path='/products'
 						element={
 							<ProtectedRoute>
 								<Products />
@@ -57,7 +69,7 @@ function App() {
 						}
 					/>
 					<Route
-						path="/products/:id"
+						path='/products/:id'
 						element={
 							<ProtectedRoute>
 								<ProductDetails />
@@ -65,23 +77,41 @@ function App() {
 						}
 					/>
 					<Route
-						path="/cart"
+						path='/cart'
 						element={
 							<ProtectedRoute>
 								<Cart />
 							</ProtectedRoute>
 						}
 					/>
-
+					<Route
+						path='/profile'
+						element={
+							<ProtectedRoute>
+								<Profile />
+							</ProtectedRoute>
+						}
+					/>
 				</Route>
-				
-				<Route path="/dashboard" element={<DashBoardLayout />}>
-					<Route index element={<DashBoard />} />
-					<Route path="products" element={<DashBoardProducts />} />
+
+				<Route
+					path='/dashboard'
+					element={<DashBoardLayout />}>
+					<Route
+						index
+						element={<DashBoard />}
+					/>
+					<Route
+						path='products'
+						element={<DashBoardProducts />}
+					/>
 				</Route>
 
 				{/* Catch-All Route */}
-				<Route path="*" element={<NotFound />} />
+				<Route
+					path='*'
+					element={<NotFound />}
+				/>
 			</Routes>
 		</Suspense>
 	);

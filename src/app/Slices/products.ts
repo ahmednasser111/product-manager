@@ -51,6 +51,19 @@ export const ProductApiSlice = createApi({
 			}),
 			invalidatesTags: ["Products"],
 		}),
+		EditProduct: builder.mutation<
+			Product,
+			{ documentId: string; data: Partial<Product> }
+		>({
+			query: ({ documentId, ...data }) => ({
+				url: `/products/${documentId}`,
+				method: "PUT",
+				headers: {
+					Authorization: `Bearer ${new Cookies().get("token")}`,
+				},
+				body: data,
+			}),
+		}),
 	}),
 });
 
@@ -60,4 +73,5 @@ export const {
 	useGetProductQuery,
 	useGetDashboardProductsPaginatedQuery,
 	useDeleteProductMutation,
+	useEditProductMutation,
 } = ProductApiSlice;

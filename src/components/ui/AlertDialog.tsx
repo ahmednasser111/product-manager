@@ -1,4 +1,3 @@
-import { DialogCloseTrigger } from "@chakra-ui/react";
 import {
 	DialogActionTrigger,
 	DialogBody,
@@ -34,10 +33,6 @@ function AlertDialog({
 	isLoading,
 	isSuccess,
 }: IProps) {
-	if (isSuccess) {
-		return <p>Action completed successfully!</p>; // Example success state
-	}
-
 	return (
 		<DialogRoot role='alertdialog'>
 			<DialogTrigger asChild>{children}</DialogTrigger>
@@ -54,7 +49,7 @@ function AlertDialog({
 					<DialogActionTrigger asChild>
 						<Button variant='outline'>{cancelLabel}</Button>
 					</DialogActionTrigger>
-					<DialogCloseTrigger>
+					<DialogActionTrigger>
 						<Button
 							colorPalette='red'
 							onClick={onConfirm}
@@ -62,7 +57,7 @@ function AlertDialog({
 							loading={isLoading}>
 							{confirmLabel}
 						</Button>
-					</DialogCloseTrigger>
+					</DialogActionTrigger>
 				</DialogFooter>
 			</DialogContent>
 		</DialogRoot>

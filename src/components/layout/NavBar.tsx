@@ -25,25 +25,33 @@ export default function NavBar() {
 	const textColor = useColorModeValue("gray.800", "white");
 
 	return (
-		<Box bg={bgColor} px={4}>
-			<Flex h={16} alignItems="center" justifyContent="space-between">
-				<Flex alignItems="center">
-					<Link to="/">
-						<Flex alignItems="center">
+		<Box
+			bg={bgColor}
+			px={4}>
+			<Flex
+				h={16}
+				alignItems='center'
+				justifyContent='space-between'>
+				<Flex alignItems='center'>
+					<Link to='/'>
+						<Flex alignItems='center'>
 							<Image
-								src="/favicon.webp"
-								alt="Product Manager Logo"
-								boxSize="40px"
+								src='/favicon.webp'
+								alt='Product Manager Logo'
+								boxSize='40px'
 								mr={2}
 							/>
-							<Text fontSize="xl" fontWeight="bold" color={textColor}>
+							<Text
+								fontSize='xl'
+								fontWeight='bold'
+								color={textColor}>
 								Product Manager
 							</Text>
 						</Flex>
 					</Link>
 				</Flex>
 
-				<Flex alignItems="center">
+				<Flex alignItems='center'>
 					{/* Desktop menu */}
 					<HStack display={{ base: "none", md: "flex" }}>
 						<MenuItems />
@@ -51,14 +59,16 @@ export default function NavBar() {
 
 					{/* Mobile menu button */}
 					<IconButton
-						aria-label="Open menu"
+						aria-label='Open menu'
 						onClick={() => setOpen(!isOpen)}
 						display={{ base: "flex", md: "none" }}
 						ml={2}>
 						<BsList />
 					</IconButton>
 
-					<Button onClick={toggleColorMode} ml={2}>
+					<Button
+						onClick={toggleColorMode}
+						ml={2}>
 						{colorMode === "light" ? <BsMoon /> : <BsSun />}
 					</Button>
 				</Flex>
@@ -66,12 +76,14 @@ export default function NavBar() {
 
 			<DrawerRoot
 				open={isOpen}
-				placement="top"
+				placement='top'
 				onOpenChange={(e) => setOpen(e.open)}>
 				<DrawerBackdrop />
 				<DrawerContent>
 					<DrawerBody>
-						<VStack spaceY={4} align="stretch">
+						<VStack
+							spaceY={4}
+							align='stretch'>
 							<MenuItems />
 						</VStack>
 					</DrawerBody>
