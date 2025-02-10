@@ -67,13 +67,13 @@ export const loginUser = createAsyncThunk(
 				userData
 			);
 
-			// Store JWT in cookie
+			// Store JWT and user data in cookies
 			cookies.set("token", response.data.jwt, cookieOptions);
+			cookies.set("user", JSON.stringify(response.data.user), cookieOptions);
 
 			// Update axios default headers
-			axiosInstance.defaults.headers.common[
-				"Authorization"
-			] = `Bearer ${response.data.jwt}`;
+			axiosInstance.defaults.headers.common["Authorization"] =
+				`Bearer ${response.data.jwt}`;
 
 			return response.data;
 		} catch (error: any) {
@@ -96,13 +96,13 @@ export const signupUser = createAsyncThunk(
 				userData
 			);
 
-			// Store JWT in cookie
+			// Store JWT and user data in cookies
 			cookies.set("token", response.data.jwt, cookieOptions);
+			cookies.set("user", JSON.stringify(response.data.user), cookieOptions);
 
 			// Update axios default headers
-			axiosInstance.defaults.headers.common[
-				"Authorization"
-			] = `Bearer ${response.data.jwt}`;
+			axiosInstance.defaults.headers.common["Authorization"] =
+				`Bearer ${response.data.jwt}`;
 
 			return response.data;
 		} catch (error: any) {
@@ -120,8 +120,9 @@ export const logoutUser = createAsyncThunk(
 	"auth/logout",
 	async (_, thunkAPI) => {
 		try {
-			// Remove token from cookies
+			// Remove token and user data from cookies
 			cookies.remove("token", { path: "/" });
+			cookies.remove("user", { path: "/" });
 
 			// Remove Authorization header
 			delete axiosInstance.defaults.headers.common["Authorization"];
@@ -199,7 +200,6 @@ const authSlice = createSlice({
 export const { clearError, setUser, clearUser } = authSlice.actions;
 
 // Selectors
-export const selectUser = (state: { auth: AuthState }) => state.auth.user;
 export const selectIsAuthenticated = (state: { auth: AuthState }) =>
 	state.auth.isAuthenticated;
 export const selectAuthLoading = (state: { auth: AuthState }) =>

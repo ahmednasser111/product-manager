@@ -17,11 +17,14 @@ import { Alert } from "../components/ui/alert";
 import { useParams } from "react-router-dom";
 import { Product } from "../interfaces";
 import axiosInstance from "../config/axios.config";
+import { addToCart } from "../app/Slices/CartSlice";
+import { useAppDispatch } from "../app/hooks";
 
 export default function ProductDetails() {
 	// Extract the `id` parameter from the URL
 	const params = useParams<{ id: string }>();
 	const id = params.id || "";
+	const dispatch = useAppDispatch();
 
 	// Fetch the product details using the `id`
 	const { data, isLoading, isError } = useGetProductQuery(id);
@@ -58,6 +61,18 @@ export default function ProductDetails() {
 
 	// Extract product details from the response
 	const product: Product = data?.data;
+
+	const handleAddToCart = (e: React.MouseEvent) => {
+		e.stopPropagation();
+		dispatch(
+			addToCart({
+				id: product.documentId,
+				title: product.title,
+				price: product.price,
+				image: `${axiosInstance.defaults.baseURL}${product.thumbnail.url}`,
+			})
+		);
+	};
 	return (
 		<Box
 			minHeight='100vh'
@@ -107,7 +122,8 @@ export default function ProductDetails() {
 							colorScheme='teal'
 							size='lg'
 							width='full'
-							disabled={product.stock === 0}>
+							disabled={product.stock === 0}
+							onClick={handleAddToCart}>
 							Add to Cart
 						</Button>
 					</VStack>

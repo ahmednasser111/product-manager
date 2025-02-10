@@ -39,20 +39,6 @@ const MenuItems = () => {
 				activeBg={activeBg}
 				activeColor={activeColor}
 			/>
-			<NavItem
-				to='/inventory'
-				label='Inventory'
-				hoverBg={hoverBg}
-				activeBg={activeBg}
-				activeColor={activeColor}
-			/>
-			<NavItem
-				to='/orders'
-				label='Orders'
-				hoverBg={hoverBg}
-				activeBg={activeBg}
-				activeColor={activeColor}
-			/>
 			{/* Add Cart NavItem */}
 			<NavItem
 				to='/cart'

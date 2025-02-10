@@ -81,7 +81,7 @@ export default function Auth() {
 					type: "success",
 				});
 			}
-			setTimeout(() => navigate("/", { replace: true }), 1000);
+			setTimeout(() => navigate("/products", { replace: true }), 1000);
 		} catch (err: any) {
 			toaster.create({
 				title: err.error || "An error occurred",
@@ -97,74 +97,88 @@ export default function Auth() {
 	};
 
 	return (
-		<Box bg={bgColor} minH="calc(100vh - 64px)">
-			<VStack spaceY={8} mx="auto" maxW="lg" py={8} px={6}>
+		<Box
+			bg={bgColor}
+			minH='calc(100vh - 64px)'>
+			<VStack
+				spaceY={8}
+				mx='auto'
+				maxW='lg'
+				py={8}
+				px={6}>
 				<Heading fontSize={"4xl"}>{isLogin ? "Sign In" : "Sign Up"}</Heading>
-				<Box rounded={"lg"} bg={boxBgColor} boxShadow={"lg"} p={8} w="full">
+				<Box
+					rounded={"lg"}
+					bg={boxBgColor}
+					boxShadow={"lg"}
+					p={8}
+					w='full'>
 					<form onSubmit={handleSubmit(onSubmit)}>
 						<Fieldset.Root>
 							<VStack spaceY={4}>
 								<Field
 									invalid={!!errors.email}
-									label="Email Address"
+									label='Email Address'
 									errorText={errors.email?.message}>
 									<Input
 										borderColor={errors.email ? "red.400" : "grey"}
-										type="email"
+										type='email'
 										{...register("email")}
 									/>
 								</Field>
 								{!isLogin && (
 									<Field
 										invalid={!!errors.username}
-										label="User Name"
+										label='User Name'
 										errorText={errors.username?.message}>
 										<Input
 											borderColor={errors.username ? "red.400" : "grey"}
-											type="text"
+											type='text'
 											{...register("username")}
 										/>
 									</Field>
 								)}
 								<Field
 									invalid={!!errors.password}
-									label="Password"
+									label='Password'
 									errorText={errors.password?.message}>
 									<PasswordInput
 										borderColor={errors.password ? "red.400" : "grey"}
-										type="password"
+										type='password'
 										{...register("password")}
 									/>
 								</Field>
 								{!isLogin && (
 									<Field
 										invalid={!!errors.confirmPassword}
-										label="Confirm Password"
+										label='Confirm Password'
 										errorText={errors.confirmPassword?.message}>
 										<PasswordInput
 											borderColor={errors.confirmPassword ? "red.400" : "grey"}
-											type="password"
+											type='password'
 											{...register("confirmPassword")}
 										/>
 									</Field>
 								)}
 
 								{authError && (
-									<Text color="red.500" mt={2}>
+									<Text
+										color='red.500'
+										mt={2}>
 										{authError.error}
 									</Text>
 								)}
 
 								<Button
-									type="submit"
-									bg="blue.400"
+									type='submit'
+									bg='blue.400'
 									color={"white"}
 									_hover={{
 										bg: "blue.500",
 									}}
-									width="full"
+									width='full'
 									loading={isLoading}
-									loadingText="Submitting...">
+									loadingText='Submitting...'>
 									{isLogin ? "Sign In" : "Sign Up"}
 								</Button>
 							</VStack>
@@ -173,7 +187,9 @@ export default function Auth() {
 				</Box>
 				<Text>
 					{isLogin ? "Don't have an account?" : "Already have an account?"}{" "}
-					<Link color="blue.400" onClick={toggleAuthMode}>
+					<Link
+						color='blue.400'
+						onClick={toggleAuthMode}>
 						{isLogin ? "Sign Up" : "Sign In"}
 					</Link>
 				</Text>

@@ -1,13 +1,14 @@
 import React from "react";
 import { Box, Heading, Text, VStack, Button } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import { selectUser, logoutUser } from "../app/Slices/AuthSlice";
+import { logoutUser } from "../app/Slices/AuthSlice";
 import { Toaster, toaster } from "../components/ui/toaster";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { useAppDispatch } from "../app/hooks";
 import { useColorModeValue } from "../components/ui/color-mode";
+import Cookies from "universal-cookie";
 
 const Profile: React.FC = () => {
-	const user = useAppSelector(selectUser);
+	const user = new Cookies().get("user");
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const bg = useColorModeValue("gray.100", "gray.900");
@@ -22,10 +23,6 @@ const Profile: React.FC = () => {
 		});
 		navigate("/auth");
 	};
-
-	if (!user) {
-		return null;
-	}
 
 	return (
 		<Box
@@ -43,8 +40,8 @@ const Profile: React.FC = () => {
 				rounded='lg'
 				boxShadow='lg'>
 				<Heading fontSize='2xl'>Profile</Heading>
-				<Text fontSize='lg'>Username: {user.username}</Text>
-				<Text fontSize='lg'>Email: {user.email}</Text>
+				<Text fontSize='lg'>Username: {user?.username}</Text>
+				<Text fontSize='lg'>Email: {user?.email}</Text>
 				<Button
 					colorScheme='red'
 					onClick={handleLogout}>

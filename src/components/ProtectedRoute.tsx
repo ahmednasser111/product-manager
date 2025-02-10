@@ -11,7 +11,12 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
 	const isAuth = useAppSelector(selectIsAuthenticated);
 
 	if (!isAuth) {
-		return <Navigate to="/auth" replace />;
+		return (
+			<Navigate
+				to='/auth'
+				replace
+			/>
+		);
 	}
 	return children;
 };

@@ -37,7 +37,7 @@ export const ProductApiSlice = createApi({
 				`/products?populate=thumbnail&populate=categories&pagination[page]=${page}&pagination[pageSize]=${pageSize}`,
 			providesTags: ["Products"],
 		}),
-		getProduct: builder.query<Product, string>({
+		getProduct: builder.query({
 			query: (id: string) => `/products/${id}?populate=thumbnail`,
 		}),
 		// delete a product with authentication

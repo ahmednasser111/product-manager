@@ -32,51 +32,55 @@ function ProductCard({
 		navigate(`${id}`);
 	};
 
-	const handleBuyNow = (e: React.MouseEvent) => {
-		e.stopPropagation();
-		// Add buy now logic here
-	};
-
 	const handleAddToCart = (e: React.MouseEvent) => {
 		e.stopPropagation();
 		dispatch(addToCart({ id, title, price, image: imgURL }));
 	};
 	return (
 		<Box
-			borderWidth="1px"
+			borderWidth='1px'
 			borderColor={borderColor}
-			borderRadius="lg"
-			overflow="hidden"
-			boxShadow="xl"
+			borderRadius='lg'
+			overflow='hidden'
+			boxShadow='xl'
 			bg={bgColor}
-			transition="all 0.3s"
+			transition='all 0.3s'
 			_hover={{ transform: "translateY(-5px)", boxShadow: "2xl" }}
 			onClick={openProductDetailsPage}
-			cursor="pointer">
+			cursor='pointer'>
 			<Image
 				src={imgURL}
 				alt={title}
 				height={{ base: "200px", md: "250px" }}
-				width="100%"
-				objectFit="cover"
+				width='100%'
+				objectFit='cover'
 			/>
 
-			<VStack p={4} alignItems="start" spaceY={3}>
-				<Text fontWeight="semibold" fontSize="xl" color={textColor}>
+			<VStack
+				p={4}
+				alignItems='start'
+				spaceY={3}>
+				<Text
+					fontWeight='semibold'
+					fontSize='xl'
+					color={textColor}>
 					{title}
 				</Text>
 				<Text color={descriptionColor}>{description}</Text>
-				<Text fontSize="2xl" fontWeight="bold" color={priceColor}>
+				<Text
+					fontSize='2xl'
+					fontWeight='bold'
+					color={priceColor}>
 					${price.toFixed(2)}
 				</Text>
 
-				<Flex width="100%" justify="space-between" mt={2}>
-					<Button colorScheme="teal" flex={1} mr={2} onClick={handleBuyNow}>
-						Buy now
-					</Button>
+				<Flex
+					width='100%'
+					justify='space-between'
+					mt={2}>
 					<Button
-						variant="outline"
-						colorScheme="teal"
+						variant='solid'
+						colorScheme='teal'
 						flex={1}
 						onClick={handleAddToCart}>
 						Add to cart
