@@ -2,9 +2,13 @@ import { HStack, IconButton } from "@chakra-ui/react";
 import { FaEye, FaEdit, FaTrash } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import AlertDialog from "./ui/AlertDialog";
-import { useDeleteProductMutation } from "../app/Slices/products";
-import ProductEditForm from "./ui/ProductEditModal";
+import {
+	useDeleteProductMutation,
+	useEditProductMutation,
+} from "../app/Slices/products";
 import { Product } from "../interfaces";
+import { ProductFormDialog } from "./ui/ProductFormDialog";
+import { toaster } from "./ui/toaster";
 
 interface TableActionsProps {
 	id: string;
@@ -20,6 +24,8 @@ const TableActions: React.FC<TableActionsProps> = ({ id, productData }) => {
 			isSuccess: isDeleteSuccess,
 		},
 	] = useDeleteProductMutation();
+
+	const [editProduct] = useEditProductMutation();
 
 	const onDelete = (id: string) => {
 		deleteProduct(id);
@@ -39,7 +45,7 @@ const TableActions: React.FC<TableActionsProps> = ({ id, productData }) => {
 						<FaEye />
 					</IconButton>
 				</Link>
-				<ProductEditForm
+				<ProductFormDialog
 					product={productData}
 					trigger={
 						<IconButton
@@ -49,6 +55,26 @@ const TableActions: React.FC<TableActionsProps> = ({ id, productData }) => {
 							<FaEdit />
 						</IconButton>
 					}
+					onSubmit={async (data: Partial<Product>) => {
+						try {
+							await editProduct({
+								documentId: productData.documentId || "",
+								data,
+							}).unwrap();
+							toaster.create({
+								title: "Product Updated",
+								description: "Product details have been successfully updated.",
+								type: "success",
+							});
+						} catch (err: any) {
+							toaster.create({
+								title: "Update Failed",
+								description:
+									err.message || "Unable to update product. Please try again.",
+								type: "error",
+							});
+						}
+					}}
 				/>
 
 				<AlertDialog
@@ -68,7 +94,6 @@ const TableActions: React.FC<TableActionsProps> = ({ id, productData }) => {
 					</IconButton>
 				</AlertDialog>
 			</HStack>
-
 		</>
 	);
 };

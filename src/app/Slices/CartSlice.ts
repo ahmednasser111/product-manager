@@ -45,7 +45,7 @@ const cartSlice = createSlice({
 				(sum, item) => sum + item.price * item.quantity,
 				0
 			);
-			state.count--;
+			state.count = state.items.reduce((sum, item) => sum + item.quantity, 0);
 		},
 		updateQuantity: (
 			state,

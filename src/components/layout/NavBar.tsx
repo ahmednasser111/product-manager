@@ -21,7 +21,7 @@ import MenuItems from "./MenuItem";
 export default function NavBar() {
 	const { colorMode, toggleColorMode } = useColorMode();
 	const [isOpen, setOpen] = useState(false);
-	const bgColor = useColorModeValue("white", "black");
+	const bgColor = useColorModeValue("gray.200", "gray.800");
 	const textColor = useColorModeValue("gray.800", "white");
 
 	return (

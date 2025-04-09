@@ -11,6 +11,15 @@ export interface Product {
 	thumbnail: Thumbnail;
 	categories: Category[];
 }
+
+export interface ProductFormData {
+	title: string;
+	price: number;
+	stock: number;
+	description?: string;
+	categories: string[];
+	thumbnail?: File;
+}
 export interface Category {
 	id: number;
 	documentId: string;
@@ -19,6 +28,7 @@ export interface Category {
 	updatedAt: string;
 	publishedAt: string;
 }
+
 export interface Thumbnail {
 	id: number;
 	documentId: string;

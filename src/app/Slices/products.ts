@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import axiosInstance from "../../config/axios.config";
-import { Product } from "../../interfaces";
+import { ProductFormData, Product } from "../../interfaces";
 import Cookies from "universal-cookie";
 
 const productApi = axiosInstance.defaults.baseURL + "/api";
@@ -51,7 +51,20 @@ export const ProductApiSlice = createApi({
 			}),
 			invalidatesTags: ["Products"],
 		}),
-		EditProduct: builder.mutation<
+
+		addProduct: builder.mutation<Product, { data: ProductFormData }>({
+			query: (data) => ({
+				url: "/products",
+				method: "POST",
+				headers: {
+					Authorization: `Bearer ${new Cookies().get("token")}`,
+				},
+				body: data,
+			}),
+			invalidatesTags: ["Products"],
+		}),
+
+		editProduct: builder.mutation<
 			Product,
 			{ documentId: string; data: Partial<Product> }
 		>({
@@ -63,6 +76,7 @@ export const ProductApiSlice = createApi({
 				},
 				body: data,
 			}),
+			invalidatesTags: ["Products"],
 		}),
 	}),
 });
@@ -74,4 +88,5 @@ export const {
 	useGetDashboardProductsPaginatedQuery,
 	useDeleteProductMutation,
 	useEditProductMutation,
+	useAddProductMutation,
 } = ProductApiSlice;

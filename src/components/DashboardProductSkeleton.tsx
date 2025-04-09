@@ -3,7 +3,7 @@ import { SkeletonCircle } from "./ui/skeleton";
 
 const DashboardProductSkeleton = () => {
 	// Generate array for skeleton rows
-	const skeletonRows = Array(5).fill(0);
+	const skeletonRows = Array(4).fill(0);
 
 	return (
 		<div>

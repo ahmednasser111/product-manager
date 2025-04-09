@@ -51,7 +51,7 @@ function Products() {
 						title={product.title}
 						description={product.description}
 						price={product.price}
-						imgURL={`${axiosInstance.defaults.baseURL}${product.thumbnail.url}`}
+						imgURL={product.thumbnail?.url ? `${axiosInstance.defaults.baseURL}${product.thumbnail.url}` : "/product-placeholder.png"}
 					/>
 				))}
 			</Grid>

@@ -93,7 +93,11 @@ function App() {
 					element={<AppLayout />}>
 					<Route
 						index
-						element={<DashBoard />}
+						element={
+							<ProtectedRoute>
+								<DashBoard />
+							</ProtectedRoute>
+						}
 					/>
 				</Route>
 
