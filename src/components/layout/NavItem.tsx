@@ -1,4 +1,4 @@
-import { Button, HStack, Icon } from "@chakra-ui/react";
+import { Button, HStack } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
 interface NavItemProps {

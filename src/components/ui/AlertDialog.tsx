@@ -29,9 +29,7 @@ function AlertDialog({
 	cancelLabel = "Cancel",
 	onConfirm,
 	children,
-	isError,
 	isLoading,
-	isSuccess,
 }: IProps) {
 	return (
 		<DialogRoot role='alertdialog'>

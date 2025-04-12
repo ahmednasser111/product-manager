@@ -55,7 +55,7 @@ const TableActions: React.FC<TableActionsProps> = ({ id, productData }) => {
 							<FaEdit />
 						</IconButton>
 					}
-					onSubmit={async (data: Partial<Product>) => {
+					onSubmit={async (data: any) => {
 						try {
 							await editProduct({
 								documentId: productData.documentId || "",
@@ -66,7 +66,7 @@ const TableActions: React.FC<TableActionsProps> = ({ id, productData }) => {
 								description: "Product details have been successfully updated.",
 								type: "success",
 							});
-						} catch (err: any) {
+						} catch (err: unknown) {
 							toaster.create({
 								title: "Update Failed",
 								description:
