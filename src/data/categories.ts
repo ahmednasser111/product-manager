@@ -35,14 +35,13 @@ async function fetchCategories(): Promise<CategoryOption[]> {
 	}
 }
 
-let categoriesCollection : any;
+const categoriesCollection = createListCollection<CategoryOption>({
+	items: [],
+});
 
-async function init() {
-	const categories = await fetchCategories();
-	categoriesCollection = createListCollection({ items: categories });
-}
-
-init();
-
+// Initialize categories
+fetchCategories().then((categories) => {
+	categoriesCollection.items = categories;
+});
 
 export default categoriesCollection;

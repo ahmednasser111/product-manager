@@ -23,7 +23,16 @@ export const ProductApiSlice = createApi({
 	refetchOnReconnect: true,
 	refetchOnFocus: true,
 	refetchOnMountOrArgChange: true,
-	baseQuery: fetchBaseQuery({ baseUrl: productApi }),
+	baseQuery: fetchBaseQuery({
+		baseUrl: productApi,
+		prepareHeaders: (headers) => {
+			const token = new Cookies().get("token");
+			if (token) {
+				headers.set("Authorization", `Bearer ${token}`);
+			}
+			return headers;
+		},
+	}),
 	endpoints: (builder) => ({
 		getProducts: builder.query<Response<Product>, void>({
 			query: () => "/products?populate=thumbnail&populate=categories",
@@ -45,9 +54,6 @@ export const ProductApiSlice = createApi({
 			query: (id: string) => ({
 				url: `/products/${id}`,
 				method: "DELETE",
-				headers: {
-					Authorization: `Bearer ${new Cookies().get("token")}`,
-				},
 			}),
 			invalidatesTags: ["Products"],
 		}),
@@ -56,9 +62,6 @@ export const ProductApiSlice = createApi({
 			query: (data) => ({
 				url: "/products",
 				method: "POST",
-				headers: {
-					Authorization: `Bearer ${new Cookies().get("token")}`,
-				},
 				body: data,
 			}),
 			invalidatesTags: ["Products"],
@@ -71,9 +74,6 @@ export const ProductApiSlice = createApi({
 			query: ({ documentId, ...data }) => ({
 				url: `/products/${documentId}`,
 				method: "PUT",
-				headers: {
-					Authorization: `Bearer ${new Cookies().get("token")}`,
-				},
 				body: data,
 			}),
 			invalidatesTags: ["Products"],

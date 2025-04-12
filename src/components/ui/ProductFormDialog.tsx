@@ -284,7 +284,7 @@ export function ProductFormDialog({
 													<SelectValueText placeholder='select categories' />
 												</SelectTrigger>
 												<SelectContent>
-													{categoriesCollection.items.map((category : {value: string, label: string}) => (
+													{categoriesCollection.items.map((category) => (
 														<SelectItem
 															item={category}
 															key={category.value}>
