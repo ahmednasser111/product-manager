@@ -70,7 +70,7 @@ const TableActions: React.FC<TableActionsProps> = ({ id, productData }) => {
 							toaster.create({
 								title: "Update Failed",
 								description:
-									err.message || "Unable to update product. Please try again.",
+									(err instanceof Error ? err.message : "Unable to update product. Please try again."),
 								type: "error",
 							});
 						}
