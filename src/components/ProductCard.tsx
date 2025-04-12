@@ -53,7 +53,6 @@ function ProductCard({
 				alt={title}
 				height={{ base: "200px", md: "250px" }}
 				width='100%'
-				objectFit='cover'
 			/>
 
 			<VStack

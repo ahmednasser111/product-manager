@@ -33,10 +33,10 @@ const cartSlice = createSlice({
 			} else {
 				state.items.push({ ...action.payload, quantity: 1 });
 			}
-			state.total = state.items.reduce(
+			state.total = Number((state.items.reduce(
 				(sum, item) => sum + item.price * item.quantity,
 				0
-			);
+			)).toFixed(2));
 			state.count++;
 		},
 		removeFromCart: (state, action: PayloadAction<string>) => {

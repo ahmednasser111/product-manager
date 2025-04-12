@@ -88,7 +88,6 @@ export default function ProductDetails() {
 							src={`${axiosInstance.defaults.baseURL}${product.thumbnail?.url}`}
 							alt={product.title}
 							borderRadius='lg'
-							objectFit='cover'
 							w='100%'
 							h={{ base: "300px", md: "500px" }}
 						/>

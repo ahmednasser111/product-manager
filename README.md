@@ -133,3 +133,6 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 ### Authentication
 ![Authentication](public/screenshots/auth.png)
+
+### Products
+![Authentication](public/screenshots/products.png)
